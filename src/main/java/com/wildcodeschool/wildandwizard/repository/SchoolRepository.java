@@ -19,6 +19,17 @@ public class SchoolRepository {
 
     public void deleteById(Long id) {
         // TODO: delete a school from the database
+        try {
+            Connection connection = DriverManager.getConnection(DB_URL,DB_USER,DB_PASSWORD);
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM school WHERE id=?");
+            statement.setLong(1, id);
+
+            if (statement.executeUpdate() !=1) {
+                throw new SQLException("failed to delete data");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<School> findAll() {
